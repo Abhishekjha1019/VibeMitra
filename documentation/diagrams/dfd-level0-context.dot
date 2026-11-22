@@ -1,0 +1,22 @@
+digraph L0 {
+  graph [rankdir=LR, splines=true, nodesep=0.6, ranksep=1.6, pad=0.3, fontname="Helvetica", labelloc=t, fontsize=16, label="Context diagram (Level 0): VibeMitra"];
+  node [fontname="Helvetica", fontsize=11];
+  edge [fontname="Helvetica", fontsize=9, color="#404040"];
+  sys [label="0\nVibeMitra Platform\n(Android app + Spring Boot API)", shape=ellipse, style=filled, fillcolor="#DEEAF6", penwidth=2.2, margin="0.35,0.25"];
+  member [label="Member\n(Android app user)", shape=box, style=filled, fillcolor="#F2F2F2"];
+  admin [label="Admin / Moderator", shape=box, style=filled, fillcolor="#F2F2F2"];
+  otp [label="OTP / SMS provider", shape=box, style=filled, fillcolor="#F2F2F2"];
+  ai [label="AI model provider\n(behind abstraction layer)", shape=box, style=filled, fillcolor="#F2F2F2"];
+  pg [label="Payment gateways\n(Razorpay / Cashfree)", shape=box, style=filled, fillcolor="#F2F2F2"];
+  gp [label="Google Play Billing", shape=box, style=filled, fillcolor="#F2F2F2"];
+  fcm [label="Firebase Cloud Messaging", shape=box, style=filled, fillcolor="#F2F2F2"];
+  os [label="Object storage\n(photos, media)", shape=box, style=filled, fillcolor="#F2F2F2"];
+  member -> sys [dir=both, label="sign-up, profile, swipes,\nmessages, reports, plan choice\n⇅ matches, chat, status"];
+  admin -> sys [dir=both, label="moderation decisions\n⇅ queue, audit views"];
+  sys -> otp [dir=both, label="OTP request ⇅ delivery status"];
+  sys -> ai [dir=both, label="sanitised features ⇅ scores,\nexplanations"];
+  sys -> pg [dir=both, label="orders, subscription requests\n⇅ signed webhook events"];
+  sys -> gp [dir=both, label="purchase token ⇅ verified\nentitlement, renewal events"];
+  sys -> fcm [label="push requests"];
+  sys -> os [dir=both, label="photo and media files"];
+}

@@ -1,0 +1,32 @@
+digraph L1a {
+  graph [rankdir=LR, splines=true, nodesep=0.35, ranksep=1.2, pad=0.3, fontname="Helvetica", labelloc=t, fontsize=20, label="Level 1 DFD (a): identity, profile and matching\n(solid = data flow; dashed = audit events)"];
+  node [fontname="Helvetica", fontsize=14];
+  edge [fontname="Helvetica", fontsize=12, color="#404040", arrowsize=0.7];
+  member [label="Member", shape=box, style=filled, fillcolor="#F2F2F2"];
+  otp [label="OTP / SMS\nprovider", shape=box, style=filled, fillcolor="#F2F2F2"];
+  ai [label="AI model\nprovider", shape=box, style=filled, fillcolor="#F2F2F2"];
+  os [label="Object\nstorage", shape=box, style=filled, fillcolor="#F2F2F2"];
+  p1 [label="1.0\nAuthenticate\n& verify", shape=ellipse, style=filled, fillcolor="#DEEAF6"];
+  p2 [label="2.0\nManage profile\n& preferences", shape=ellipse, style=filled, fillcolor="#DEEAF6"];
+  p3 [label="3.0\nScore & recommend\n(AI matching)", shape=ellipse, style=filled, fillcolor="#DEEAF6"];
+  p4 [label="4.0\nDiscover &\nmatch", shape=ellipse, style=filled, fillcolor="#DEEAF6"];
+  d1 [label="D1 Identity &\naccount", shape=box, style=filled, fillcolor="#FFF2CC"];
+  d2 [label="D2 Profiles &\npreferences", shape=box, style=filled, fillcolor="#FFF2CC"];
+  d3 [label="D3 Matches &\nscores", shape=box, style=filled, fillcolor="#FFF2CC"];
+  d8 [label="D8 Audit & AI\nrequest logs", shape=box, style=filled, fillcolor="#FFF2CC"];
+  member -> p1 [dir=both, label="phone, OTP, DOB\n⇅ session tokens"];
+  otp -> p1 [dir=both, label="OTP send / verify"];
+  p1 -> d1 [dir=both, label="user, session,\nconsent, age"];
+  member -> p2 [dir=both, label="profile, preferences\n⇅ profile view"];
+  p2 -> d2 [dir=both, label="profile records"];
+  p2 -> os [dir=both, label="photo files"];
+  d2 -> p3 [label="profile and preference\nfeatures"];
+  p3 -> d3 [label="scores and\nexplanations"];
+  p3 -> ai [dir=both, label="sanitised features\n⇅ scores"];
+  member -> p4 [dir=both, label="like / pass / super-like\n⇅ candidate cards"];
+  d3 -> p4 [label="candidates, match status"];
+  p4 -> d3 [label="swipes, matches"];
+  p1 -> d8 [style=dashed];
+  p2 -> d8 [style=dashed];
+  p3 -> d8 [style=dashed, label="AI call metadata"];
+}
