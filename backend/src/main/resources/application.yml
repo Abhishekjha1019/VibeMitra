@@ -1,0 +1,24 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: vibemitra-backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/vibemitra}
+    username: ${DB_USERNAME:vibemitra}
+    password: ${DB_PASSWORD:}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate   # Schema is owned by Flyway, never by Hibernate
+  flyway:
+    # Migrations live at the repository root so the SQL is shared by all environments.
+    # Run the backend from the backend/ directory (mvn spring-boot:run) so this relative path resolves.
+    locations: filesystem:../database/migrations
+
+app:
+  jwt:
+    # Required. Provide via environment variable; the application refuses to start without it.
+    secret: ${JWT_SECRET}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:60}
