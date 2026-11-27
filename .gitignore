@@ -1,3 +1,40 @@
+# Secrets and local environment - never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.jks
+*.keystore
+google-services.json
+GoogleService-Info.plist
+local.properties
+
+# Planning document contains credentials in plain text - keep it out of Git
+vibemitra-2st-draft_complete.docx
+
+# Backend (Maven / Java)
+backend/target/
+*.class
+*.log
+.idea/
+*.iml
+
+# Mobile (Expo / Node)
+mobile-app/node_modules/
+mobile-app/.expo/
+mobile-app/dist/
+mobile-app/web-build/
+mobile-app/android/
+mobile-app/ios/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+
+# From the existing repository
 # Gradle files
 .gradle/
 build/
