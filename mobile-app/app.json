@@ -17,6 +17,9 @@
     "ios": {
       "bundleIdentifier": "com.vibemitra.app",
       "supportsTablet": false
-    }
+    },
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }
