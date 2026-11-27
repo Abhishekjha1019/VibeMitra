@@ -13,6 +13,8 @@ type SessionState = {
   account: Account | null;
   signIn: (token: string) => Promise<void>;
   signOut: () => Promise<void>;
+  /** Deletes the account on the server (password required), then clears the local session. */
+  deleteAccount: (password: string) => Promise<void>;
 };
 
 const SessionContext = createContext<SessionState | undefined>(undefined);
@@ -59,9 +61,20 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     })();
   }, [clear]);
 
+  const deleteAccount = useCallback(
+    async (password: string) => {
+      if (!token) {
+        throw new Error('Not signed in');
+      }
+      await authApi.deleteAccount(token, password);
+      await clear();
+    },
+    [token, clear],
+  );
+
   const value = useMemo<SessionState>(
-    () => ({ loading, token, account, signIn, signOut: clear }),
-    [loading, token, account, signIn, clear],
+    () => ({ loading, token, account, signIn, signOut: clear, deleteAccount }),
+    [loading, token, account, signIn, clear, deleteAccount],
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

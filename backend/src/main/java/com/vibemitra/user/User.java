@@ -72,6 +72,24 @@ public class User {
         this.updatedAt = now;
     }
 
+    /**
+     * Erases personal data and makes the account unusable. The row is kept (with placeholders)
+     * so references such as audit logs stay valid. Only the owning service should call this.
+     */
+    public void markDeleted(String tombstoneEmail, String tombstonePasswordHash, Instant now) {
+        this.status = "DELETED";
+        this.email = tombstoneEmail;
+        this.passwordHash = tombstonePasswordHash;
+        this.displayName = "Deleted user";
+        this.dateOfBirth = LocalDate.of(1970, 1, 1);
+        this.deletedAt = now;
+        this.updatedAt = now;
+    }
+
+    public boolean isActive() {
+        return "ACTIVE".equals(status) && deletedAt == null;
+    }
+
     public UUID getId() { return id; }
     public String getEmail() { return email; }
     public String getPasswordHash() { return passwordHash; }

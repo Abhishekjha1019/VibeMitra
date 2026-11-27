@@ -41,4 +41,8 @@ export const authApi = {
     apiRequest<AuthResponse>('/api/v1/auth/login', { method: 'POST', body: { email, password } }),
 
   me: (token: string) => apiRequest<Account>('/api/v1/users/me', { token }),
+
+  /** Permanently deletes the signed-in account. The password is re-checked by the server. */
+  deleteAccount: (token: string, password: string) =>
+    apiRequest<void>('/api/v1/users/me', { method: 'DELETE', token, body: { password } }),
 };

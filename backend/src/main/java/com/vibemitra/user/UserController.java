@@ -3,6 +3,7 @@ package com.vibemitra.user;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,14 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserResponse> me(@AuthenticationPrincipal UUID userId) {
         return ResponseEntity.ok(userService.getAccount(userId));
+    }
+
+    /** Permanently deletes the caller's account after password confirmation (Google Play requirement). */
+    @DeleteMapping("/me")
+    public ResponseEntity<Void> deleteMe(@AuthenticationPrincipal UUID userId,
+                                         @Valid @RequestBody DeleteAccountRequest request) {
+        userService.deleteAccount(userId, request.password());
+        return ResponseEntity.noContent().build();
     }
 
     /** Partial update of the caller's own display name and/or city. */
